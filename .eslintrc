@@ -1,0 +1,10 @@
+{
+    "extends": ["standard", "plugin:jest/recommended"],
+    "plugins": ["prettier", "jest"],
+    "rules": {
+      "prettier/prettier": "error",
+      "semi": "off",
+      "space-before-function-paren":"off"
+    }
+  }
+  
