@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Bank test API visualizer</title>
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Flux Bank test API visualizer">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <script src="js/api.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <section class="header">
+      <div>
+        <h2 class="title">Flux Bank test API visualizer</h2>
+        <a class="button button-primary"
+          href="https://beta.developers.tryflux.com/guides/testing/receipt-generation.html">View docs</a>
+      </div>
+      <div class="value-props row">
+        <div class="four columns value-prop">
+          <img class="value-img" src="images/auth.svg" alt="authorisation icon">
+          Auth.
+        </div>
+        <div class="four columns value-prop">
+          <img class="value-img" src="images/register.svg" alt="register icon">
+          Create account.
+        </div>
+        <div class="four columns value-prop">
+          <img class="value-img" src="images/bank.svg" alt="bank transaction icon">
+          Send bank transaction.
+        </div>
+      </div>
+    </section>
+
+    <div class="navbar-spacer"></div>
+    <nav class="navbar">
+      <div class="container">
+        <ul class="navbar-list">
+          <li class="navbar-item"><a class="navbar-link" href="#intro">Intro</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="#auth">Auth</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="#account">Create Account</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="#transactions">Bank Transactions</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="#receipts">Receipts</a></li>
+        </ul>
+      </div>
+    </nav>
+
+
+    <div class="docs-section" id="intro">
+      <h6 class="docs-header">What is this?</h6>
+      <p>You should use this to explore the Flux Bank testing API. The Bank testing API is designed to help automate
+        testing Flux receipt features for bank integrations. You should not use this simple webpage as a testing tool in
+        your testing pipeline. This is designed to help visualize receipt features/fields</p>
+      <a class="button" href="mailto:help@tryflux.com?subject=bank_api_testing">Any suggestions welcome...</a>
+    </div>
+
+    <div class="docs-section" id="auth">
+      <h6 class="docs-header">Auth/bearer tokens</h6>
+      <p>All actions with the Flux Bank Test API requires authorization. All requests will require
+        <code>Authorization</code> HTTP header.</p>
+      <a class="button" href="https://beta.developers.tryflux.com/authentication/reference.html">Find out more</a>
+      <p>The node app below should have already requested the authorization for you.</p>
+      <h6 id="tokenStatus">Everything is fine</h6>
+      <pre class="code-example">
+        <code class="code-example-body prettyprint" id="tokenCode">
+        </code>
+      </pre>
+    </div>
+
+    <div class="docs-section" id="account">
+      <h6 class="docs-header">Create Account</h6>
+      <p>Bank transactions/receipts must belong to a specific Flux account/user. Create a account here to use later.</p>
+      <a class="button"
+        href="https://beta.developers.tryflux.com/account-registration-and-modification/reference/user-account-registration-and-deletion/register-update-account.html">Find
+        out more</a>
+      <div class="docs-example docs-example-forms">
+        <form onsubmit="event.preventDefault()">
+          <div class="row">
+            <div class="six columns">
+              <label for="createACIdInput">ID</label>
+              <input class="u-full-width" type="text" placeholder="insert-guid" id="createACIdInput">
+            </div>
+            <div class="six columns">
+              <label for="createACEmailInput">email</label>
+              <input class="u-full-width" type="email" placeholder="test@domain.com" id="createACEmailInput">
+            </div>
+          </div>
+          <input class="button-primary" type="submit" value="Submit" id="createNewAccountBt">
+        </form>
+      </div>
+      <h4 id="authOutput"></h4>
+    </div>
+
+    <div class="docs-section" id="transactions">
+      <h6 class="docs-header">Bank Transactions</h6>
+      <p>Create a test bank transaction which will generate a receipt. You must select a account which has been
+        previously created.</p>
+      <a class="button" href="https://beta.developers.tryflux.com/webhooks/reference/webhooks/bank-post.html">Find
+        out more</a>
+      <form onsubmit="event.preventDefault()">
+        <div class="row">
+          <div class="six columns">
+            <label for="createBkIdInput">Bank Transaction ID</label>
+            <input class="u-full-width" type="text" placeholder="insert-guid" id="createBkIdInput">
+          </div>
+          <div class="six columns">
+            <label for="accountSelect">Select account id</label>
+            <select class="u-full-width" id="accountSelect">
+            </select>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="six columns">
+            <label for="merchantIdSelect">Select merchant</label>
+            <select class="u-full-width" id="merchantIdSelect">
+            </select>
+          </div>
+          <div class="six columns">
+            <label for="amountSelect">Select amount</label>
+            <select class="u-full-width" id="amountSelect">
+            </select>
+          </div>
+        </div>
+        <input class="button-primary" type="submit" value="Submit" id="createBankTransactionBt">
+      </form>
+      <h4 id="bankOutput"></h4>
+    </div>
+
+    <div class="docs-section" id="receipts">
+      <h6 class="docs-header">View Receipts</h6>
+      <p>View generated receipts via the test bank transactions API</p>
+      <a class="button"
+        href="https://beta.developers.tryflux.com/receipt-retrieval/reference/receipt-retrieval/get-receipt.html">Find
+        out more</a>
+      <form onsubmit="event.preventDefault()">
+        <div class="row">
+          <div class="six columns">
+            <label for="bankIdSelect">Select bank transaction id</label>
+            <select class="u-full-width" id="bankIdSelect">
+            </select>
+          </div>
+        </div>
+        <input class="button-primary" type="submit" value="Submit" id="getReceiptBt">
+      </form>
+      <h4 id="receiptOutput"></h4>
+      <div class="row">
+        <div class="six columns receipt-box" id="receiptContainer">
+        </div>
+      </div>
+      <pre class="code-example"><code class="code-example-body prettyprint" id="receiptCode"></code></pre>
+    </div>
+
+  </div>
+</body>
+
+</html>
