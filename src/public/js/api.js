@@ -419,6 +419,5 @@ const init = () => {
 };
 
 document.addEventListener('DOMContentLoaded', (event) => {
-  console.log('loaded');
   init();
 });
