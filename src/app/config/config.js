@@ -22,7 +22,7 @@ class Config {
   isConfigValid() {
     const errors = [];
     if (!this.fluxClientId && !this.fluxClientSecret) {
-      errors.push('FLUX_PUBLIC_KEY or FLUX_PUBLIC_KEY_URL');
+      errors.push('FLUX_CLIENT_ID or FLUX_CLIENT_SECRET');
     }
     if (errors.length > 0) {
       throw new ConfigValidationError(
