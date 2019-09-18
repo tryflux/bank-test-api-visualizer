@@ -9,6 +9,9 @@ class Config {
       86400000;
     this.fluxApiUrlBase =
       environmentVariables.FLUX_API_URL_BASE || 'https://api.test.tryflux.com';
+    this.fluxApiWebhooksBase =
+      environmentVariables.FLUX_API_WEBHOOKS_URL_BASE ||
+      'https://webhooks.test.tryflux.com';
     this.httpsRequestTimeout =
       environmentVariables.HTTPS_REQUEST_TIMEOUT || 120000;
     this.webserverPort = environmentVariables.PORT || 80;

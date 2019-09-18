@@ -92,7 +92,7 @@ const handleCreateBankTransaction = async (
   try {
     const result = await post(
       config.httpsRequestTimeout,
-      'https://webhooks.test.tryflux.com/v2/bank',
+      `${config.fluxApiWebhooksBase}/v2/bank`,
       headerProps,
       JSON.stringify(body)
     );
