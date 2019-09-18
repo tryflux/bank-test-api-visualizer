@@ -391,6 +391,37 @@ const renderReceipt = (receipt) => {
     );
     receiptContainer.appendChild(notesFragment);
   }
+  // barcode
+  let isRenderBarcodeAfterMount = false;
+  if (receipt.barcode) {
+    const barcodeFragment = document.createDocumentFragment();
+    const barcodeContainer = barcodeFragment.appendChild(
+      document.createElement('div')
+    );
+    // currently support code_128 at the moment. Need to add another lib for qr codes
+    if (receipt.barcode.type && receipt.barcode.type === 'CODE_128') {
+      const barcodeSvg = barcodeContainer.appendChild(
+        document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+      );
+      barcodeSvg.id = 'barcode';
+      barcodeSvg.setAttribute('width', '100%');
+      isRenderBarcodeAfterMount = true;
+    } else {
+      const unsupportedBarcodeParagraph = barcodeContainer.appendChild(
+        document.createElement('p')
+      );
+      unsupportedBarcodeParagraph.textContent = 'Unsupported barcode type';
+    }
+    receiptContainer.appendChild(barcodeFragment);
+  }
+  if (isRenderBarcodeAfterMount) {
+    window.JsBarcode('#barcode', receipt.barcode.code, {
+      format: 'CODE128',
+      displayValue: true
+    });
+    // force the size, as the lib will override what we set in the svg
+    document.querySelector('#barcode').setAttribute('width', '100%');
+  }
 };
 
 const addEventListenersToControls = () => {
