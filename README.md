@@ -38,5 +38,4 @@ The following commands are available:
 npm run start //local express server
 npm run lint // show linting
 npm run lint:fix // prettier and eslint fixes
-npm run test // run unit tests
 ```
