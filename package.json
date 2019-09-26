@@ -1,6 +1,6 @@
 {
   "name": "bank-test-api-visualizer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Web app calling the bank test api",
   "main": "src/index.js",
   "engines": {
