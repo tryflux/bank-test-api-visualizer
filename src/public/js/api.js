@@ -266,7 +266,7 @@ const renderReceipt = (receipt) => {
     const collectionNumberSpan = collectionNumberParagraph.appendChild(
       document.createElement('span')
     );
-    collectionNumberSpan.textContent = '🥡 ';
+    collectionNumberSpan.textContent = '';
     collectionNumberParagraph.appendChild(
       document.createTextNode(`Collection Number: #${receipt.collectionNumber}`)
     );
