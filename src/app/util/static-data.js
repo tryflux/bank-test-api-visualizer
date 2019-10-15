@@ -77,7 +77,8 @@ const AMOUNTS_MAGIC_NUMBERS = [
     id: '76'
   },
   { label: '1 Item that has been refunded to the customer', id: '80' },
-  { label: '1 Item with tax that has been refunded to the customer', id: '81' }
+  { label: '1 Item with tax that has been refunded to the customer', id: '81' },
+  { label: '1 Item that has been partially refunded to the customer and another item in exchange', id: '82' }
 ];
 
 const MERCHANT_DATA = [
