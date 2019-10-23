@@ -184,6 +184,44 @@ const onGetReceipt = async () => {
   }
 };
 
+const buildStyledElement = (label, styleObj) => {
+  const simpleTruthyFn = (value) =>
+    !!(value === true || value.toLower() === 'true');
+  const isBold = getNestedObject(
+    styleObj,
+    ['description', 'style', 'bold'],
+    simpleTruthyFn
+  );
+  const isCapitalise = getNestedObject(
+    styleObj,
+    ['description', 'style', 'capitalise'],
+    simpleTruthyFn
+  );
+  const isItalic = getNestedObject(styleObj, ['italic'], simpleTruthyFn);
+  const isStrikethrough = getNestedObject(
+    styleObj,
+    ['description', 'style', 'strikeThrough'],
+    simpleTruthyFn
+  );
+  const p = document.createElement('p');
+  let cssStyle = 'margin: 0; display: contents;';
+  if (isBold) {
+    cssStyle = `${cssStyle} font-weight: bold;`;
+  }
+  if (isCapitalise) {
+    cssStyle = `${cssStyle} text-transform: capitalize;`;
+  }
+  if (isItalic) {
+    cssStyle = `${cssStyle} font-style: italic;`;
+  }
+  if (isStrikethrough) {
+    cssStyle = `${cssStyle} text-decoration: line-through;`;
+  }
+  p.textContent = label;
+  p.setAttribute('style', cssStyle);
+  return p;
+};
+
 const buildItems = (
   parent,
   items,
@@ -204,7 +242,7 @@ const buildItems = (
       quantityText.className = 'receipt-quantity';
     }
     const label = getNestedObject(item, labelProp, labelFn);
-    itemLi.appendChild(document.createTextNode(label));
+    itemLi.appendChild(buildStyledElement(label, item));
     const amount = getNestedObject(item, amountProp, amountFn);
     if (amount) {
       const amountText = itemLi.appendChild(document.createElement('span'));
