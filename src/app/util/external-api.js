@@ -84,7 +84,7 @@ const handleCreateBankTransaction = async (
         scheme: 'VISA'
       },
       merchant: {
-        name: merchantItem.label
+        transactionNarrative: merchantItem.label
       }
     }
   ];
