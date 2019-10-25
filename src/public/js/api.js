@@ -285,10 +285,6 @@ const renderReceipt = (receipt) => {
   const headerFragment = document.createDocumentFragment();
   const headerDiv = headerFragment.appendChild(document.createElement('div'));
   headerDiv.className = 'receipt-header';
-  const merchantLogo = headerDiv.appendChild(document.createElement('img'));
-  merchantLogo.className = 'receipt-merchant-logo';
-  merchantLogo.alt = 'merchant logo';
-  merchantLogo.src = receipt.merchant.logoUrl;
 
   const merchantDetails = headerDiv.appendChild(document.createElement('p'));
   merchantDetails.textContent = receipt.merchant.name;
