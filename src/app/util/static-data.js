@@ -68,17 +68,17 @@ const AMOUNTS_MAGIC_NUMBERS = [
     label: '1 Item with quantity = 3 -> after 60 seconds: updated with the item (quantity = 3) refunded',
     id: '74'
   },
-  // {
-  //   label: '3 Items with tax -> after 30 seconds: updated to show a single item refunded',
-  //   id: '73'
-  // },
-  // {
-  //   label: '1 Item with tax and quantity = 3 -> after 30 seconds: updated with the item (quantity = 1) refunded',
-  //   id: '75'
-  // },
+  {
+    label: '3 Items with tax -> after 30 seconds: updated to show a single item refunded',
+    id: '73'
+  },
+  {
+    label: '1 Item with tax and quantity = 3 -> after 30 seconds: updated with the item (quantity = 1) refunded',
+    id: '75'
+  },
   { label: '1 Item that has been refunded to the customer', id: '80' },
-  // { label: '1 Item with tax that has been refunded to the customer', id: '81' },
-  // { label: '1 Item that has been partially refunded to the customer and another item in exchange', id: '82' }
+  { label: '1 Item with tax that has been refunded to the customer', id: '81' },
+  { label: '1 Item that has been partially refunded to the customer and another item in exchange', id: '82' },
 ];
 
 const MERCHANT_DATA = [
