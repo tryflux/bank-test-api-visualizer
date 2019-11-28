@@ -155,12 +155,31 @@ const onCreateBankTransaction = async () => {
   updateCreateBankIdDomElements();
 };
 
-const onGetReceipt = async () => {
-  const bankTransactionId = document.querySelector('#bankIdSelect').value;
+const setLoadingState = () => {
+  document.querySelector('#receiptOutput').textContent =
+    'Attempting to fetch receipt';
+  document.querySelector('#receiptCode').textContent = '';
+  const receiptContainer = document.querySelector('#receiptContainer');
+  while (receiptContainer.firstChild) {
+    receiptContainer.removeChild(receiptContainer.firstChild);
+  }
+};
+
+const setFailedState = () => {
+  document.querySelector('#receiptOutput').textContent = 'failed';
+  document.querySelector('#receiptCode').textContent = '';
+  const receiptContainer = document.querySelector('#receiptContainer');
+  while (receiptContainer.firstChild) {
+    receiptContainer.removeChild(receiptContainer.firstChild);
+  }
+};
+
+const onGetReceipt = async (bankTransactionId) => {
   if (model.receipts.includes(bankTransactionId)) {
     document.querySelector('#receiptOutput').textContent = 'success';
     renderReceipt(model.receipts[model.receipts.indexOf(bankTransactionId)]);
   } else {
+    setLoadingState();
     const response = await window.fetch(
       `${window.location.origin}/getReceipt`,
       {
@@ -178,8 +197,7 @@ const onGetReceipt = async () => {
       document.querySelector('#receiptOutput').textContent = 'success';
       renderReceipt(payload.data);
     } else {
-      document.querySelector('#receiptOutput').textContent = 'failed';
-      renderReceipt('');
+      setFailedState();
     }
   }
 };
@@ -432,6 +450,18 @@ const renderReceipt = (receipt) => {
     const barcodeContainer = barcodeFragment.appendChild(
       document.createElement('div')
     );
+    if (receipt.barcode.title) {
+      const barcodeTitleParagraph = barcodeContainer.appendChild(
+        document.createElement('p')
+      );
+      barcodeTitleParagraph.textContent = `${receipt.barcode.title}`;
+    }
+    if (receipt.barcode.message) {
+      const barcodeMessageParagraph = barcodeContainer.appendChild(
+        document.createElement('p')
+      );
+      barcodeMessageParagraph.textContent = `${receipt.barcode.message}`;
+    }
     // currently support code_128 at the moment. Need to add another lib for qr codes
     if (receipt.barcode.type && receipt.barcode.type === 'CODE_128') {
       const barcodeSvg = barcodeContainer.appendChild(
@@ -446,6 +476,7 @@ const renderReceipt = (receipt) => {
       );
       unsupportedBarcodeParagraph.textContent = 'Unsupported barcode type';
     }
+
     receiptContainer.appendChild(barcodeFragment);
   }
   if (isRenderBarcodeAfterMount) {
@@ -470,8 +501,25 @@ const addEventListenersToControls = () => {
       onCreateBankTransaction();
     });
   document.querySelector('#getReceiptBt').addEventListener('click', (event) => {
-    onGetReceipt();
+    const bankTransactionFromList = document.querySelector('#bankIdSelect')
+      .value;
+    if (bankTransactionFromList) {
+      onGetReceipt(bankTransactionFromList);
+    }
   });
+  document
+    .querySelector('#manualBankIdSelect')
+    .addEventListener('keydown', (event) => {
+      event.stopPropagation();
+      if (event.key === 'Enter') {
+        const bankTransactionFromInput = document.querySelector(
+          '#manualBankIdSelect'
+        ).value;
+        if (bankTransactionFromInput) {
+          onGetReceipt(bankTransactionFromInput);
+        }
+      }
+    });
 };
 
 const init = () => {
