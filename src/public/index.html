@@ -87,11 +87,11 @@
           <div class="row">
             <div class="six columns">
               <label for="createACIdInput">ID</label>
-              <input class="u-full-width" type="text" placeholder="insert-guid" id="createACIdInput">
+              <input class="u-full-width" type="text" placeholder="insert-guid" id="createACIdInput" />
             </div>
             <div class="six columns">
               <label for="createACEmailInput">email</label>
-              <input class="u-full-width" type="email" placeholder="test@domain.com" id="createACEmailInput">
+              <input class="u-full-width" type="email" placeholder="test@domain.com" id="createACEmailInput" />
             </div>
           </div>
           <input class="button-primary" type="submit" value="Submit" id="createNewAccountBt">
@@ -110,7 +110,7 @@
         <div class="row">
           <div class="six columns">
             <label for="createBkIdInput">Bank Transaction ID</label>
-            <input class="u-full-width" type="text" placeholder="insert-guid" id="createBkIdInput">
+            <input class="u-full-width" type="text" placeholder="insert-guid" id="createBkIdInput" />
           </div>
           <div class="six columns">
             <label for="accountSelect">Select account id</label>
@@ -131,7 +131,7 @@
             </select>
           </div>
         </div>
-        <input class="button-primary" type="submit" value="Submit" id="createBankTransactionBt">
+        <input class="button-primary" type="submit" value="Submit" id="createBankTransactionBt" />
       </form>
       <h4 id="bankOutput"></h4>
     </div>
@@ -142,16 +142,18 @@
       <a class="button"
         href="https://beta.developers.tryflux.com/receipt-retrieval/reference/receipt-retrieval/get-receipt.html">Find
         out more</a>
-      <form onsubmit="event.preventDefault()">
         <div class="row">
           <div class="six columns">
             <label for="bankIdSelect">Select bank transaction id</label>
             <select class="u-full-width" id="bankIdSelect">
             </select>
           </div>
+          <div class="six columns">
+            <label for="manualBankIdSelect">Enter bank transaction id</label>
+            <input class="u-full-width" type="text" placeholder="insert-guid and press enter" id="manualBankIdSelect" />
+          </div>
+          <input class="button-primary" type="submit" value="Submit" id="getReceiptBt" />
         </div>
-        <input class="button-primary" type="submit" value="Submit" id="getReceiptBt">
-      </form>
       <h4 id="receiptOutput"></h4>
       <div class="row">
         <div class="six columns receipt-box" id="receiptContainer">
