@@ -44,6 +44,10 @@ const AMOUNTS_MAGIC_NUMBERS = [
   { label: '3 Items, one with tax', id: '07' },
   { label: '3 Items with tax', id: '08' },
   { label: '20 Items', id: '09' },
+  {
+    label: '1 Item with 3 children each with 0 quantity and 0 price',
+    id: '10'
+  },
   { label: '1 Item with a partial discount', id: '30' },
   { label: '1 Item with a full discount', id: '31' },
   { label: '3 Items with a receipt wide partial discount', id: '32' },
