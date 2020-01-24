@@ -79,7 +79,6 @@ const handleCreateBankTransaction = async (
       },
       card: {
         authCode: '9e422c',
-        bin: '555555',
         lastFour: '1234',
         scheme: 'VISA'
       },
