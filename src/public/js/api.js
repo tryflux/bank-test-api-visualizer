@@ -413,6 +413,25 @@ const renderReceipt = (receipt) => {
       amountFormatter,
       ['']
     );
+    // add card details
+    receipt.payments.forEach((payment) => {
+      if (payment.type === 'card') {
+        buildItems(
+          mainPaymentsList,
+          [
+            { label: 'last four', value: payment.lastFour },
+            { label: 'auth code', value: payment.authCode }
+          ],
+          [''],
+          propFn,
+          ['label'],
+          propFn,
+          ['value'],
+          propFn,
+          ['']
+        );
+      }
+    });
   }
   receiptContainer.appendChild(paymentsFragment);
   // notes
