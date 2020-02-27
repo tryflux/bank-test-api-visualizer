@@ -35,7 +35,10 @@ const httpsRequest = (
           try {
             if (validResponsePayload.statusCode === 204) {
               resolve('');
-            } else {
+            } else if (
+              validResponsePayload.statusCode >= 200 &&
+              validResponsePayload.statusCode < 300
+            ) {
               validResponsePayload.data = JSON.parse(chunks);
             }
             resolve(validResponsePayload);
