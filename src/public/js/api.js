@@ -165,8 +165,8 @@ const setLoadingState = () => {
   }
 };
 
-const setFailedState = () => {
-  document.querySelector('#receiptOutput').textContent = 'failed';
+const setFailedState = (code) => {
+  document.querySelector('#receiptOutput').textContent = `${code} - failed`;
   document.querySelector('#receiptCode').textContent = '';
   const receiptContainer = document.querySelector('#receiptContainer');
   while (receiptContainer.firstChild) {
@@ -197,7 +197,7 @@ const onGetReceipt = async (bankTransactionId) => {
       document.querySelector('#receiptOutput').textContent = 'success';
       renderReceipt(payload.data);
     } else {
-      setFailedState();
+      setFailedState(response.status);
     }
   }
 };
