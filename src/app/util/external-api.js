@@ -2,6 +2,8 @@ const { put, post, get } = require('../dal/https-client');
 const { log } = require('./logger');
 const { AMOUNTS_MAGIC_NUMBERS, MERCHANT_DATA } = require('./static-data');
 
+const isValidResponseCode = (code) => code >= 200 && code < 300;
+
 const handleGetAuth = (requestHandler, responseHandler, model) => {
   let payload = {
     isOK: false
@@ -121,7 +123,11 @@ const handleGetReceipt = async (
       ''
     );
     log('debug', 'result from get receipt: ', result);
-    responseHandler.send(JSON.stringify(result));
+    if (isValidResponseCode(result.statusCode)) {
+      responseHandler.send(JSON.stringify(result));
+    } else {
+      responseHandler.sendStatus(result.statusCode);
+    }
   } catch (error) {
     log('error', 'failed to get receipt', error);
     responseHandler.sendStatus(400);
