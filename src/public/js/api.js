@@ -10,7 +10,7 @@ const model = {
   receipts: []
 };
 
-const propFn = (value) => value;
+const propAccessorFn = (value) => value;
 
 const uuidv4 = () => {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
@@ -165,8 +165,8 @@ const setLoadingState = () => {
   }
 };
 
-const setFailedState = () => {
-  document.querySelector('#receiptOutput').textContent = 'failed';
+const setFailedState = (code) => {
+  document.querySelector('#receiptOutput').textContent = `${code} - failed`;
   document.querySelector('#receiptCode').textContent = '';
   const receiptContainer = document.querySelector('#receiptContainer');
   while (receiptContainer.firstChild) {
@@ -197,7 +197,7 @@ const onGetReceipt = async (bankTransactionId) => {
       document.querySelector('#receiptOutput').textContent = 'success';
       renderReceipt(payload.data);
     } else {
-      setFailedState();
+      setFailedState(response.status);
     }
   }
 };
@@ -240,28 +240,28 @@ const buildStyledElement = (label, styleObj) => {
   return p;
 };
 
-const buildItems = (
-  parent,
+const buildLiElements = ({
+  parentElement,
   items,
   quantityProp,
-  quantityFn,
+  quantityValueFn,
   labelProp,
-  labelFn,
+  labelValueFn,
   amountProp,
-  amountFn,
+  amountValueFn,
   subItemsProp
-) => {
+}) => {
   items.forEach((item) => {
-    const itemLi = parent.appendChild(document.createElement('li'));
-    const quantity = getNestedObject(item, quantityProp, quantityFn);
+    const itemLi = parentElement.appendChild(document.createElement('li'));
+    const quantity = getNestedObject(item, quantityProp, quantityValueFn);
     if (quantity) {
       const quantityText = itemLi.appendChild(document.createElement('strong'));
       quantityText.textContent = quantity;
       quantityText.className = 'receipt-quantity';
     }
-    const label = getNestedObject(item, labelProp, labelFn);
+    const label = getNestedObject(item, labelProp, labelValueFn);
     itemLi.appendChild(buildStyledElement(label, item));
-    const amount = getNestedObject(item, amountProp, amountFn);
+    const amount = getNestedObject(item, amountProp, amountValueFn);
     if (amount) {
       const amountText = itemLi.appendChild(document.createElement('span'));
       amountText.textContent = amount;
@@ -271,17 +271,17 @@ const buildItems = (
     if (subItems && Array.isArray(subItems) && subItems.length > 0) {
       const subParent = itemLi.appendChild(document.createElement('ul'));
       subParent.className = 'receipt-list-style';
-      buildItems(
-        subParent,
-        subItems,
+      buildLiElements({
+        parentElement: subParent,
+        items: subItems,
         quantityProp,
-        quantityFn,
+        quantityValueFn,
         labelProp,
-        labelFn,
+        labelValueFn,
         amountProp,
-        amountFn,
+        amountValueFn,
         subItemsProp
-      );
+      });
     }
   });
 };
@@ -336,17 +336,17 @@ const renderReceipt = (receipt) => {
       document.createElement('ul')
     );
     mainItemsList.className = 'receipt-list-style';
-    buildItems(
-      mainItemsList,
-      receipt.items,
-      ['quantity'],
-      quantityFormatter,
-      ['description', 'label'],
-      propFn,
-      ['amount', 'amount'],
-      amountFormatter,
-      ['subItems']
-    );
+    buildLiElements({
+      parentElement: mainItemsList,
+      items: receipt.items,
+      quantityProp: ['quantity'],
+      quantityValueFn: quantityFormatter,
+      labelProp: ['description', 'label'],
+      labelValueFn: propAccessorFn,
+      amountProp: ['amount', 'amount'],
+      amountValueFn: amountFormatter,
+      subItemsProp: ['subItems']
+    });
   }
   receiptContainer.appendChild(itemsFragment);
   // payments
@@ -384,17 +384,17 @@ const renderReceipt = (receipt) => {
       document.createElement('ul')
     );
     mainTaxesList.className = 'receipt-list-style';
-    buildItems(
-      mainTaxesList,
-      receipt.taxes,
-      [''],
-      propFn,
-      ['description', 'label'],
-      propFn,
-      ['value', 'amount'],
-      amountFormatter,
-      ['']
-    );
+    buildLiElements({
+      parentElement: mainTaxesList,
+      items: receipt.taxes,
+      quantityProp: [''],
+      quantityValueFn: propAccessorFn,
+      labelProp: ['description', 'label'],
+      labelValueFn: propAccessorFn,
+      amountProp: ['value', 'amount'],
+      amountValueFn: amountFormatter,
+      subItemsProp: ['']
+    });
   }
   // payments
   if (receipt.payments && Array.isArray(receipt.payments)) {
@@ -402,17 +402,36 @@ const renderReceipt = (receipt) => {
       document.createElement('ul')
     );
     mainPaymentsList.className = 'receipt-list-style';
-    buildItems(
-      mainPaymentsList,
-      receipt.payments,
-      [''],
-      propFn,
-      ['type'],
-      propFn,
-      ['paid', 'amount'],
-      amountFormatter,
-      ['']
-    );
+    buildLiElements({
+      parentElement: mainPaymentsList,
+      items: receipt.payments,
+      quantityProp: [''],
+      quantityValueFn: propAccessorFn,
+      labelProp: ['type'],
+      labelValueFn: propAccessorFn,
+      amountProp: ['paid', 'amount'],
+      amountValueFn: amountFormatter,
+      subItemsProp: ['']
+    });
+    // add card details
+    receipt.payments.forEach((payment) => {
+      if (payment.type === 'card') {
+        buildLiElements({
+          parentElement: mainPaymentsList,
+          items: [
+            { label: 'last four', value: payment.lastFour },
+            { label: 'auth code', value: payment.authCode }
+          ],
+          quantityProp: [''],
+          quantityValueFn: propAccessorFn,
+          labelProp: ['label'],
+          labelValueFn: propAccessorFn,
+          amountProp: ['value'],
+          amountValueFn: propAccessorFn,
+          subItemsProp: ['']
+        });
+      }
+    });
   }
   receiptContainer.appendChild(paymentsFragment);
   // notes
@@ -430,17 +449,17 @@ const renderReceipt = (receipt) => {
       document.createElement('ul')
     );
     mainNotesList.className = 'receipt-list-style';
-    buildItems(
-      mainNotesList,
-      receipt.notes,
-      [''],
-      propFn,
-      ['description', 'label'],
-      propFn,
-      ['', ''],
-      propFn,
-      ['']
-    );
+    buildLiElements({
+      parentElement: mainNotesList,
+      items: receipt.notes,
+      quantityProp: [''],
+      quantityValueFn: propAccessorFn,
+      labelProp: ['description', 'label'],
+      labelValueFn: propAccessorFn,
+      amountProp: ['', ''],
+      amountValueFn: propAccessorFn,
+      subItemsProp: ['']
+    });
     receiptContainer.appendChild(notesFragment);
   }
   // barcode
