@@ -1,6 +1,6 @@
 const https = require('https');
 
-const isValidResponseCode = (code) => code >= 200 && code < 300;
+const isSuccessfulResponse = (code) => code >= 200 && code < 300;
 
 const httpsRequest = (
   requestTimeout,
@@ -37,7 +37,7 @@ const httpsRequest = (
           try {
             if (validResponsePayload.statusCode === 204) {
               resolve('');
-            } else if (isValidResponseCode(validResponsePayload.statusCode)) {
+            } else if (isSuccessfulResponse(validResponsePayload.statusCode)) {
               validResponsePayload.data = JSON.parse(chunks);
             }
             resolve(validResponsePayload);
@@ -106,5 +106,5 @@ module.exports = {
   get,
   post,
   put,
-  isValidResponseCode
+  isSuccessfulResponse
 };

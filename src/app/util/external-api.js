@@ -1,4 +1,4 @@
-const { put, post, get, isValidResponseCode } = require('../dal/https-client');
+const { put, post, get, isSuccessfulResponse } = require('../dal/https-client');
 const { log } = require('./logger');
 const { AMOUNTS_MAGIC_NUMBERS, MERCHANT_DATA } = require('./static-data');
 
@@ -121,7 +121,7 @@ const handleGetReceipt = async (
       ''
     );
     log('debug', 'result from get receipt: ', result);
-    if (isValidResponseCode(result.statusCode)) {
+    if (isSuccessfulResponse(result.statusCode)) {
       responseHandler.send(JSON.stringify(result));
     } else {
       responseHandler.sendStatus(result.statusCode);
