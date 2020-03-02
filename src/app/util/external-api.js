@@ -1,8 +1,6 @@
-const { put, post, get } = require('../dal/https-client');
+const { put, post, get, isValidResponseCode } = require('../dal/https-client');
 const { log } = require('./logger');
 const { AMOUNTS_MAGIC_NUMBERS, MERCHANT_DATA } = require('./static-data');
-
-const isValidResponseCode = (code) => code >= 200 && code < 300;
 
 const handleGetAuth = (requestHandler, responseHandler, model) => {
   let payload = {
