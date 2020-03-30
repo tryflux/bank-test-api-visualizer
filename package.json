@@ -7,7 +7,10 @@
     "node": ">12.0.0"
   },
   "scripts": {
+    "start:development": "[ ! -f .development.env ] && ./configure.sh; cp .development.env .env && node -r dotenv/config src/index.js",
+    "start:preprod": "[ ! -f .preprod.env ] && ./configure.sh; cp .preprod.env .env && node -r dotenv/config src/index.js",
     "start": "node src/index.js",
+    "clean": "rm ./.*.env",
     "lint": "eslint src; exit 0",
     "lint:fix": "eslint src --fix; exit 0"
   },
@@ -21,6 +24,7 @@
     "uuidv4": "^4.0.0"
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "eslint": "^5.9.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",

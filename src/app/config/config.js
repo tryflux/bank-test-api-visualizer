@@ -2,6 +2,9 @@ const { ConfigValidationError } = require('./config-validation-error');
 
 class Config {
   constructor(environmentVariables) {
+    if (environmentVariables.FLUX_ENVIRONMENT) {
+      console.log(`FLUX_ENVIRONMENT = ${environmentVariables.FLUX_ENVIRONMENT}`);
+    }
     this.fluxClientId = environmentVariables.FLUX_CLIENT_ID;
     this.fluxClientSecret = environmentVariables.FLUX_CLIENT_SECRET;
     this.fluxAccessTokenRetryPeriod =
