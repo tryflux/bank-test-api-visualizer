@@ -63,7 +63,10 @@ const updateCreateAccountIdDomElements = () => {
 };
 
 const updateCreateBankIdDomElements = () => {
-  document.querySelector('#createBkIdInput').value = uuidv4();
+  document.querySelector('#createBkIdInput').value = uuidv4().replace(
+    /\D/g,
+    ''
+  ); // only keep digits
 };
 
 const getMerchants = async () => {
