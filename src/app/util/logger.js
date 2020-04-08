@@ -6,6 +6,8 @@ const logger = bunyan.createLogger({
   level: process.env.LOG_LEVEL || 'debug'
 });
 
+const isPrimitive = (value) => value !== Object(value);
+
 const log = (level, message, detailsObj = {}) => {
   const defaultLoggingInfo = {
     name,
@@ -14,9 +16,13 @@ const log = (level, message, detailsObj = {}) => {
     nodeVersion: process.version
   };
   const prefixedObject = Object.create(null, {});
-  Object.keys(detailsObj).forEach((key) => {
-    prefixedObject[`log-data-${key}`] = detailsObj[key];
-  });
+  if (isPrimitive(detailsObj)) {
+    prefixedObject.details = detailsObj;
+  } else {
+    Object.keys(detailsObj).forEach((key) => {
+      prefixedObject[`log-data-${key}`] = detailsObj[key];
+    });
+  }
   // logger[level]({ message, ...defaultLoggingInfo, ...prefixedObject });
   console.log(message, { ...defaultLoggingInfo, ...prefixedObject });
 };
