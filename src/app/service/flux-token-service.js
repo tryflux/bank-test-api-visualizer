@@ -68,16 +68,14 @@ class FluxTokenService {
         shouldRetry = true;
         log(
           'error',
-          `flux access token service - failed to flux access token: ${result}`
+          `flux access token service - failed to flux access token: ${result.statusCode}`
         );
       }
     } catch (error) {
       shouldRetry = true;
       log(
         'error',
-        `flux access token service - failed get flux access token: ${
-          error.message
-        }`,
+        `flux access token service - failed get flux access token: ${error}`,
         error
       );
     }
