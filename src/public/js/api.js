@@ -40,9 +40,12 @@ const getAuthStatus = async () => {
   updateAuthDomElements();
 };
 const updateAuthDomElements = () => {
+  const access = JSON.parse(atob(model.authStatus.access.split(".")[1]))
+  const accessMeta = JSON.parse(access.metadata);
   document.querySelector('#tokenStatus').textContent = model.authStatus.isOK
-    ? 'Everything is fine'
-    : 'auth failed, see nodejs console';
+    ? accessMeta.clientType === 'BANK' ? 'Everything is fine.'
+    : `Everything is fine. But you probably meant to use a token with {clientType: BANK} instead of {clientType: ${accessMeta.clientType}}`
+    : `Authentication failed. see the nodejs console for more info.`;
   document.querySelector(
     '#tokenCode'
   ).textContent = model.authStatus = JSON.stringify(

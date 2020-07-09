@@ -1,6 +1,11 @@
 const https = require('https');
 
-const isSuccessfulResponse = (code) => code >= 200 && code < 300;
+const isSuccessfulResponse = (code) => {
+  if(!code) {
+    throw new Error("status code is undefined.");
+  }
+  return code >= 200 && code < 300;
+}
 
 const httpsRequest = (
   requestTimeout,
@@ -35,9 +40,9 @@ const httpsRequest = (
         });
         incomingMessage.on('end', () => {
           try {
-            if (validResponsePayload.statusCode === 204) {
-              resolve('');
-            } else if (isSuccessfulResponse(validResponsePayload.statusCode)) {
+            if (validResponsePayload.statusCode !== 204
+              && isSuccessfulResponse(validResponsePayload.statusCode)
+              && (!validResponsePayload.headers["Content-Type"] || validResponsePayload.headers["Content-Type"].indexOf("json") != -1)) {
               validResponsePayload.data = JSON.parse(chunks);
             }
             resolve(validResponsePayload);
