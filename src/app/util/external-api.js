@@ -40,10 +40,15 @@ const handleCreateAccount = async (
       JSON.stringify({ email: requestHandler.body.email })
     );
     log('debug', 'result from creating account: ', result);
+    if (isSuccessfulResponse(result.statusCode)) {
+      responseHandler.sendStatus(204);
+    } else {
+      responseHandler.sendStatus(result.statusCode);
+    }
   } catch (error) {
     log('error', 'failed to create account', error);
+    responseHandler.sendStatus(500);
   }
-  responseHandler.sendStatus(204);
 };
 
 const handleCreateBankTransaction = async (
@@ -94,11 +99,16 @@ const handleCreateBankTransaction = async (
       headerProps,
       JSON.stringify(body)
     );
-    log('debug', 'result from creating bank transaction: ', result);
+    log('debug', 'result from creating bank transaction: ', {body: JSON.stringify(body), result});
+    if (isSuccessfulResponse(result.statusCode)) {
+      responseHandler.sendStatus(204);
+    } else {
+      responseHandler.sendStatus(result.statusCode);
+    }
   } catch (error) {
     log('error', 'failed to bank transaction', error);
+    responseHandler.sendStatus(500);
   }
-  responseHandler.sendStatus(204);
 };
 
 const handleGetReceipt = async (
