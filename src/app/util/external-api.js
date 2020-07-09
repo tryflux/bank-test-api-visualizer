@@ -51,6 +51,35 @@ const handleCreateAccount = async (
   }
 };
 
+const handleActivateOffer = async (
+  requestHandler,
+  responseHandler,
+  model,
+  config
+) => {
+  const headerProps = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${model.token.access}`
+  };
+  try {
+    const result = await post(
+      config.httpsRequestTimeout,
+      `${config.fluxApiUrlBase}/offers/activations/${requestHandler.body.accountId}`,
+      headerProps,
+      JSON.stringify({ promotionId: requestHandler.body.promotionId })
+    );
+    log('debug', 'result from activating offer: ', result);
+    if (isSuccessfulResponse(result.statusCode)) {
+      responseHandler.sendStatus(204);
+    } else {
+      responseHandler.sendStatus(result.statusCode);
+    }
+  } catch (error) {
+    log('error', 'failed to activate offer', {error, message: error.message});
+    responseHandler.sendStatus(500);
+  }
+};
+
 const handleCreateBankTransaction = async (
   requestHandler,
   responseHandler,
@@ -148,5 +177,6 @@ module.exports = {
   handleGetAmounts,
   handleCreateAccount,
   handleCreateBankTransaction,
-  handleGetReceipt
+  handleGetReceipt,
+  handleActivateOffer
 };

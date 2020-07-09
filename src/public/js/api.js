@@ -114,7 +114,7 @@ const onCreateAccount = async () => {
     document.querySelector('#authOutput').textContent = 'Created';
     model.accounts.push(accountId);
     // add element to accounts select
-    const selectElement = document.querySelector('#accountSelect');
+    const selectElement = document.querySelector('#offerAccountSelect');
     const optionElement = selectElement.appendChild(
       document.createElement('option')
     );
@@ -125,6 +125,29 @@ const onCreateAccount = async () => {
   // clean up
   document.querySelector('#createACIdInput').value = uuidv4();
   document.querySelector('#createACEmailInput').value = '';
+};
+
+const onActivateOffer = async () => {
+  const accountId = document.querySelector('#offerAccountSelect').value;
+  const offerId = document.querySelector('#activateOfferIdInput').value;
+  const response = await window.fetch(
+    `${window.location.origin}/activateOffer`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        accountId,
+        promotionId: offerId
+      }),
+      // eslint-disable-next-line no-undef
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    }
+  );
+  if (response.status === 204) {
+    document.querySelector('#activateOutput').textContent = 'Activated';
+  } else {
+    document.querySelector('#activateOutput').textContent = 'Failed';
+  }
+  updateCreateBankIdDomElements();
 };
 
 const onCreateBankTransaction = async () => {
@@ -515,6 +538,11 @@ const renderReceipt = (receipt) => {
 };
 
 const addEventListenersToControls = () => {
+  document
+    .querySelector('#activateOfferBt')
+    .addEventListener('click', (event) => {
+      onActivateOffer();
+    });
   document
     .querySelector('#createNewAccountBt')
     .addEventListener('click', (event) => {

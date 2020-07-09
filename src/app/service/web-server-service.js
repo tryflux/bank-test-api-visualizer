@@ -9,7 +9,8 @@ const {
   handleGetAmounts,
   handleCreateAccount,
   handleCreateBankTransaction,
-  handleGetReceipt
+  handleGetReceipt,
+  handleActivateOffer
 } = require('../util/external-api');
 
 class WebServerService {
@@ -61,6 +62,17 @@ class WebServerService {
       log('debug', 'handling GET /amounts');
       handleGetAmounts(requestHandler, responseHandler, this.model);
     });
+    this.expressInstance.post('/activateOffer',
+      (requestHandler, responseHandler) => {
+        log('debug', 'handling POST /activateOffer');
+        handleActivateOffer(
+          requestHandler,
+          responseHandler,
+          this.model,
+          this.config
+        );
+      }
+    );
     this.expressInstance.post(
       '/createAccount',
       (requestHandler, responseHandler) => {
