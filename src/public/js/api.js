@@ -119,6 +119,11 @@ const onCreateAccount = async () => {
       document.createElement('option')
     );
     optionElement.text = accountId;
+    const selectElement2 = document.querySelector('#accountSelect');
+    const optionElement2 = selectElement2.appendChild(
+      document.createElement('option')
+    );
+    optionElement2.text = accountId;
   } else {
     document.querySelector('#authOutput').textContent = 'failed';
   }
