@@ -67,7 +67,7 @@
       <h6 class="docs-header">Auth/bearer tokens</h6>
       <p>All actions with the Flux Bank Test API requires authorization. All requests will require
         <code>Authorization</code> HTTP header.</p>
-      <a class="button" href="https://beta.developers.tryflux.com/authentication/reference.html">Find out more</a>
+      <a class="button" href="https://developers.tryflux.com/#tag/Authentication">Find out more</a>
       <p>The node app below should have already requested the authorization for you.</p>
       <h6 id="tokenStatus">Everything is fine</h6>
       <pre class="code-example">
@@ -80,7 +80,7 @@
       <h6 class="docs-header">Create Account</h6>
       <p>Bank transactions/receipts must belong to a specific Flux account/user. Create a account here to use later.</p>
       <a class="button"
-        href="https://beta.developers.tryflux.com/account-registration-and-modification/reference/user-account-registration-and-deletion/register-update-account.html">Find
+        href="https://developers.tryflux.com/#tag/Accounts">Find
         out more</a>
       <div class="docs-example docs-example-forms">
         <form onsubmit="event.preventDefault()">
@@ -100,12 +100,32 @@
       <h4 id="authOutput"></h4>
     </div>
 
+    <div class="docs-section" id="offers">
+      <h6 class="docs-header">Activate Offers</h6>
+      <p>Activate an offer for an account.</p>
+      <a class="button" href="https://developers.tryflux.com/#operation/GetActivationsByUser">Find out more</a>
+      <form onsubmit="event.preventDefault()">
+        <div class="row">
+          <div class="six columns">
+            <label for="activateOfferIdInput">Offer ID</label>
+            <input class="u-full-width" type="text" value="f2d827fc-9403-4b36-9c47-c675de4bec09" id="activateOfferIdInput" />
+          </div>
+          <div class="six columns">
+            <label for="offerAccountSelect">Select account id</label>
+            <select class="u-full-width" id="offerAccountSelect">
+            </select>
+          </div>
+        </div>
+        <input class="button-primary" type="submit" value="Submit" id="activateOfferBt" />
+      </form>
+      <h4 id="activateOutput"></h4>
+    </div>
+
     <div class="docs-section" id="transactions">
       <h6 class="docs-header">Bank Transactions</h6>
       <p>Create a test bank transaction which will generate a receipt. You must select a account which has been
         previously created.</p>
-      <a class="button" href="https://beta.developers.tryflux.com/webhooks/reference/webhooks/bank-post.html">Find
-        out more</a>
+      <a class="button" href="https://developers.tryflux.com/#tag/Sending-Bank-Transactions">Find out more</a>
       <form onsubmit="event.preventDefault()">
         <div class="row">
           <div class="six columns">
@@ -117,7 +137,6 @@
             <select class="u-full-width" id="accountSelect">
             </select>
           </div>
-
         </div>
         <div class="row">
           <div class="six columns">
@@ -140,8 +159,7 @@
       <h6 class="docs-header">View Receipts</h6>
       <p>View generated receipts via the test bank transactions API</p>
       <a class="button"
-        href="https://beta.developers.tryflux.com/receipt-retrieval/reference/receipt-retrieval/get-receipt.html">Find
-        out more</a>
+        href="https://developers.tryflux.com/#tag/Receive-Receipt">Find out more</a>
         <div class="row">
           <div class="six columns">
             <label for="bankIdSelect">Select bank transaction id</label>
