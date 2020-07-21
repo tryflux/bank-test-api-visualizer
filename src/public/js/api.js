@@ -341,9 +341,7 @@ const renderReceipt = (receipt) => {
   const merchantDetails = headerDiv.appendChild(document.createElement('p'));
   merchantDetails.textContent = receipt.merchant.name;
   if (receipt.merchant.location) {
-    merchantDetails.textContent = `${receipt.merchant.name} - ${
-      receipt.merchant.location.name
-    }`;
+    merchantDetails.textContent = `${receipt.merchant.location.name} - ${receipt.merchant.location.address}`;
   }
   if (receipt.collectionNumber) {
     const collectionNumberParagraph = headerDiv.appendChild(
