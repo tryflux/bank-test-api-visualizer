@@ -54,6 +54,7 @@ const AMOUNTS_MAGIC_NUMBERS = [
   { label: '3 Items with a receipt wide full discount', id: '33' },
   { label: '3 Items - variable discounts', id: '34' },
   { label: 'A receipt from a different location', id: '42' },
+  { label: 'A receipt with a displayAddress', id: '43' },
   { label: 'Split payment - gift card', id: '50' },
   { label: '3 Items with delivery (if merchant supports it)', id: '60' },
   { label: '3 Items with service charge (if merchant supports it)', id: '61' },
