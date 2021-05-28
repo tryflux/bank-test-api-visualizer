@@ -13,6 +13,11 @@ const SCHUH_MERCHANT = {
   id: '324bc964-5b5b-4e89-881d-58b6500083a6',
   features: 'Returns, No VAT Receipt'
 };
+const HANDM_MERCHANT = {
+  label: 'H&M',
+  id: '9ecdeecf-af5e-4c6a-a6c4-4534f4d26dd1',
+  features: 'Returns, VAT Receipt'
+};
 const ITSU_MERCHANT = {
   label: 'Itsu',
   id: 'cee65617-ebc7-4059-a5db-01d74903cd41',
@@ -48,6 +53,9 @@ const AMOUNTS_MAGIC_NUMBERS = [
     label: '1 Item with 3 children each with 0 quantity and 0 price',
     id: '10'
   },
+  { label: 'Items with null quantities and amounts', id: '11' },
+  { label: '1 Item with a very long description', id: '12' },
+  { label: '2 Items with measurement quantities', id: '13' },
   { label: '1 Item with a partial discount', id: '30' },
   { label: '1 Item with a full discount', id: '31' },
   { label: '3 Items with a receipt wide partial discount', id: '32' },
@@ -111,7 +119,8 @@ const MERCHANT_DATA = [
   ITSU_MERCHANT,
   EAT_MERCHANT,
   PURE_MERCHANT,
-  CINEMA_MERCHANT
+  CINEMA_MERCHANT,
+  HANDM_MERCHANT
 ];
 
 const populateStaticData = (model) => {
