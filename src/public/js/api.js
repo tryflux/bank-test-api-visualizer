@@ -228,9 +228,10 @@ const onGetReceipt = async (bankTransactionId) => {
     );
     if (response.status === 200) {
       const payload = await response.json();
-      model.receipts.push({ bankTransactionId, receiptData: payload.data });
+      const receipt = payload.data || payload;
+      model.receipts.push({ bankTransactionId, receiptData: receipt });
       document.querySelector('#receiptOutput').textContent = 'success';
-      renderReceipt(payload.data);
+      renderReceipt(receipt);
     } else {
       setFailedState(response.status);
     }
