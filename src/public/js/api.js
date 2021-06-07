@@ -364,7 +364,7 @@ const renderReceipt = (receipt) => {
     document.createElement('div')
   );
   const quantityFormatter = (quantity) => `${quantity} x`;
-  const amountFormatter = (amount) => `£${amount / 100}`;
+  const amountFormatter = (amount) => `£${(amount / 100).toFixed(2)}`;
   if (receipt.items && Array.isArray(receipt.items)) {
     const mainItemsList = itemsContainer.appendChild(
       document.createElement('ul')
@@ -404,7 +404,7 @@ const renderReceipt = (receipt) => {
       document.createElement('strong')
     );
     totalText.textContent = `£${
-      receipt.total.amount > 0 ? receipt.total.amount / 100 : 0
+      receipt.total.amount > 0 ? (receipt.total.amount / 100).toFixed(2) : 0
     }`;
     totalText.className = 'receipt-total-amount';
   }
