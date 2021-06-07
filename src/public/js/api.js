@@ -238,7 +238,7 @@ const onGetReceipt = async (bankTransactionId) => {
   }
 };
 
-const amountToGbp = amount => new Intl.NumberFormat(undefined, { style: 'currency', currency: 'GBP' }).format(amount);
+const formatAsCurrency = (amount, currency = 'GBP')  => new Intl.NumberFormat(undefined, { style: 'currency', currency: currency }).format(amount);
 
 const buildStyledElement = (label, styleObj) => {
   const simpleTruthyFn = (value) =>
@@ -366,7 +366,7 @@ const renderReceipt = (receipt) => {
     document.createElement('div')
   );
   const quantityFormatter = (quantity) => `${quantity} x`;
-  const amountFormatter = (amount) => amountToGbp(amount / 100);
+  const amountFormatter = (amount) => formatAsCurrency(amount / 100);
   if (receipt.items && Array.isArray(receipt.items)) {
     const mainItemsList = itemsContainer.appendChild(
       document.createElement('ul')
@@ -405,7 +405,7 @@ const renderReceipt = (receipt) => {
     const totalText = totalParagraph.appendChild(
       document.createElement('strong')
     );
-    totalText.textContent = amountToGbp(receipt.total.amount > 0 ? (receipt.total.amount / 100) : 0);
+    totalText.textContent = formatAsCurrency(receipt.total.amount > 0 ? (receipt.total.amount / 100) : 0);
 
     totalText.className = 'receipt-total-amount';
   }
