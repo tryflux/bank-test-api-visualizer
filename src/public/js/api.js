@@ -256,7 +256,7 @@ const buildStyledElement = (label, styleObj) => {
   const isItalic = getNestedObject(styleObj, ['italic'], simpleTruthyFn);
   const isStrikethrough = getNestedObject(
     styleObj,
-    ['description', 'style', 'strikeThrough'],
+    ['description', 'style', 'strikethrough'],
     simpleTruthyFn
   );
   const p = document.createElement('p');
