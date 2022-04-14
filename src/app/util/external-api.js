@@ -66,9 +66,9 @@ const handleActivateOffer = async (
       config.httpsRequestTimeout,
       `${config.fluxApiUrlBase}/offers/activations/${requestHandler.body.accountId}`,
       headerProps,
-      JSON.stringify({ promotionId: requestHandler.body.promotionId })
-    )
-    log('debug', 'result from activating offer: ', result)
+      JSON.stringify({ offerId: requestHandler.body.offerId })
+    );
+    log('debug', 'result from activating offer: ', result);
     if (isSuccessfulResponse(result.statusCode)) {
       responseHandler.sendStatus(204)
     } else {
