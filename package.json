@@ -1,37 +1,27 @@
 {
   "name": "bank-test-api-visualizer",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Web app calling the bank test api",
   "main": "src/index.js",
   "engines": {
     "node": ">12.0.0"
   },
   "scripts": {
-    "start:development": "[ ! -f .development.env ] && ./.configure.sh; cp .development.env .env && node -r dotenv/config src/index.js",
-    "start:preprod": "[ ! -f .preprod.env ] && ./.configure.sh; cp .preprod.env .env && node -r dotenv/config src/index.js",
     "start": "node src/index.js",
-    "lint": "eslint src; exit 0",
-    "lint:fix": "eslint src --fix; exit 0"
+    "lint": "standard src; exit 0",
+    "lint:fix": "standard src --fix; exit 0"
   },
   "author": "Mark Line <mark@tryflux.com>",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "bunyan": "^1.8.14",
+    "body-parser": "^1.20.0",
+    "bunyan": "^1.8.15",
     "compression": "^1.7.4",
-    "express": "^4.17.1",
-    "uuidv4": "^6.2.0"
+    "express": "^4.17.3",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0",
-    "eslint": "^7.5.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jest": "^23.18.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "prettier": "2.0.5"
+    "dotenv": "^16.0.0",
+    "standard": "^16.0.4"
   }
 }
