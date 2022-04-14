@@ -142,7 +142,7 @@ const onActivateOffer = async () => {
       method: 'POST',
       body: JSON.stringify({
         accountId,
-        promotionId: offerId
+        offerId
       }),
       // eslint-disable-next-line no-undef
       headers: new Headers({ 'Content-Type': 'application/json' })
