@@ -21,7 +21,7 @@ Other config items are available such as what port to start the local web server
 
 ## development
 
-Firstly install node. Tested with latest (^12).
+Firstly install node. Tested with lts (^16).
 Check out the git repo
 Run the following steps
 
@@ -37,5 +37,5 @@ The following commands are available:
 ```javascript
 npm run start //local express server
 npm run lint // show linting
-npm run lint:fix // prettier and eslint fixes
+npm run lint:fix // lint fixes
 ```
