@@ -1,25 +1,25 @@
-const { App } = require('./app/app.js');
-const { log } = require('./app/util/logger');
+const { App } = require('./app/app.js')
+const { log } = require('./app/util/logger')
 
-let app = null;
+let app = null
 
 const gracefulExit = () => {
-  log('info', 'Application closing...');
+  log('info', 'Application closing...')
   if (app) {
-    app.stop();
+    app.stop()
   }
-  process.exit();
-};
+  process.exit()
+}
 
 process.on('uncaughtException', (error) => {
-  log('error', error.message, error);
+  log('error', error.message, error)
   log(
     'error',
     'Uncaught Exception. Application attempting graceful shut down',
     error
-  );
-  gracefulExit();
-});
+  )
+  gracefulExit()
+})
 
 process.on('unhandledRejection', (reason, promise) => {
   log(
@@ -27,17 +27,17 @@ process.on('unhandledRejection', (reason, promise) => {
     'Unhandled Rejection. Application continuing...',
     reason,
     promise
-  );
-  gracefulExit();
-});
+  )
+  gracefulExit()
+})
 
-process.on('SIGINT', function() {
-  gracefulExit();
-});
+process.on('SIGINT', function () {
+  gracefulExit()
+})
 process.on('SIGTERM', () => {
-  gracefulExit();
-});
+  gracefulExit()
+})
 
-log('info', 'Application starting...');
-app = new App();
-app.start();
+log('info', 'Application starting...')
+app = new App()
+app.start()
