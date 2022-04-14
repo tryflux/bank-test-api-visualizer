@@ -1,10 +1,10 @@
-const https = require('https');
+const https = require('https')
 
 const isSuccessfulResponse = (code) => {
-  if(!code) {
-    throw new Error("status code is undefined.");
+  if (!code) {
+    throw new Error('status code is undefined.')
   }
-  return code >= 200 && code < 300;
+  return code >= 200 && code < 300
 }
 
 const httpsRequest = (
@@ -16,7 +16,7 @@ const httpsRequest = (
   shouldWrite,
   body
 ) => {
-  const urlInstance = new URL(urlAddress);
+  const urlInstance = new URL(urlAddress)
   const options = {
     hostname: urlInstance.hostname,
     path: `${urlInstance.pathname}${urlInstance.search}`,
@@ -24,8 +24,8 @@ const httpsRequest = (
     headers: {
       ...headerProps
     }
-  };
-  let chunks = '';
+  }
+  let chunks = ''
   return new Promise((resolve, reject) => {
     try {
       // likely https.get or https.request
@@ -34,41 +34,41 @@ const httpsRequest = (
           statusCode: incomingMessage.statusCode,
           headers: incomingMessage.headers,
           data: null
-        };
+        }
         incomingMessage.on('data', (dataResponse) => {
-          chunks += dataResponse;
-        });
+          chunks += dataResponse
+        })
         incomingMessage.on('end', () => {
           try {
-            if (validResponsePayload.statusCode !== 204
-              && isSuccessfulResponse(validResponsePayload.statusCode)
-              && (!validResponsePayload.headers["Content-Type"] || validResponsePayload.headers["Content-Type"].indexOf("json") != -1)) {
-              validResponsePayload.data = JSON.parse(chunks);
+            if (validResponsePayload.statusCode !== 204 &&
+              isSuccessfulResponse(validResponsePayload.statusCode) &&
+              (!validResponsePayload.headers['Content-Type'] || validResponsePayload.headers['Content-Type'].indexOf('json') !== -1)) {
+              validResponsePayload.data = JSON.parse(chunks)
             }
-            resolve(validResponsePayload);
+            resolve(validResponsePayload)
           } catch (error) {
-            reject(error);
+            reject(error)
           }
-        });
-      });
+        })
+      })
       clientRequest.setTimeout(requestTimeout, () => {
-        clientRequest.abort(); // manually abort the request
+        clientRequest.abort() // manually abort the request
         // this will trigger the error event
-      });
+      })
       clientRequest.on('error', (error) => {
-        reject(error.message);
-      });
+        reject(error.message)
+      })
       if (shouldWrite) {
-        clientRequest.write(body);
+        clientRequest.write(body)
       }
     } catch (error) {
-      reject(error.message);
+      reject(error.message)
     }
-  });
-};
+  })
+}
 
 const put = (requestTimeout, urlAddress, headerProps, body) => {
-  headerProps['Content-Length'] = Buffer.byteLength(body);
+  headerProps['Content-Length'] = Buffer.byteLength(body)
   return httpsRequest(
     requestTimeout,
     'PUT',
@@ -77,11 +77,11 @@ const put = (requestTimeout, urlAddress, headerProps, body) => {
     'request',
     true,
     body
-  );
-};
+  )
+}
 
 const post = (requestTimeout, urlAddress, headerProps, body) => {
-  headerProps['Content-Length'] = Buffer.byteLength(body);
+  headerProps['Content-Length'] = Buffer.byteLength(body)
   return httpsRequest(
     requestTimeout,
     'POST',
@@ -90,12 +90,12 @@ const post = (requestTimeout, urlAddress, headerProps, body) => {
     'request',
     true,
     body
-  );
-};
+  )
+}
 
 const get = (requestTimeout, urlAddress, headerProps) => {
-  headerProps['Content-Language'] = 'en-US';
-  headerProps.Accept = 'application/json';
+  headerProps['Content-Language'] = 'en-US'
+  headerProps.Accept = 'application/json'
   return httpsRequest(
     requestTimeout,
     'GET',
@@ -104,12 +104,12 @@ const get = (requestTimeout, urlAddress, headerProps) => {
     'get',
     false,
     null
-  );
-};
+  )
+}
 
 module.exports = {
   get,
   post,
   put,
   isSuccessfulResponse
-};
+}
